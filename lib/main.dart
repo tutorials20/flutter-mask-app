@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final response = await http.get(url);
 
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    print('Response body: ${utf8.decode(response.bodyBytes)}');
   }
 
   @override
