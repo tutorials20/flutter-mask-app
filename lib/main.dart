@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final response = await http.get(url);
 
     print('Response status: ${response.statusCode}');
-    print('Response body: ${utf8.decode(response.bodyBytes)}');
+    print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
   }
 
   @override
