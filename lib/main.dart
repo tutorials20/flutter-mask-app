@@ -44,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
   var stores = List<Store>();
 
   Future fetch() async {
+    setState(() {
+      stores = List<Store>();
+    });
     final url =
         "https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json";
     final response = await http.get(url);
@@ -77,14 +80,23 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        body: ListView(
-          children: stores
-              .map((e) => ListTile(
-                    title: Text(e.name),
-                    subtitle: Text(e.addr),
-                    trailing: Text(e.remainStat ?? '모름'),
-                  ))
-              .toList(),
-        ));
+        body: stores.length < 1 ? buildLoading() : buildContent());
   }
+
+  buildLoading() => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('LOADING'), CircularProgressIndicator()],
+        ),
+      );
+
+  buildContent() => ListView(
+        children: stores
+            .map((e) => ListTile(
+                  title: Text(e.name),
+                  subtitle: Text(e.addr),
+                  trailing: Text(e.remainStat ?? '모름'),
+                ))
+            .toList(),
+      );
 }
