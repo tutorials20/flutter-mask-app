@@ -43,6 +43,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var stores = List<Store>();
 
+  List<Store> filteredStores() => stores.where(filterExists).toList();
+
+  bool filterExists(store) {
+    switch (store.remainStat) {
+      case 'plenty':
+      case 'some':
+      case 'few':
+        return true;
+    }
+    return false;
+  }
+
   Future fetch() async {
     setState(() {
       stores = List<Store>();
@@ -72,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('공적마스크 ${stores.length} 곳'),
+          title: Text('공적마스크 ${filteredStores().length} 곳'),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
@@ -91,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
   buildContent() => ListView(
-        children: stores
+        children: filteredStores()
             .map((e) => ListTile(
                   title: Text(e.name),
                   subtitle: Text(e.addr),
