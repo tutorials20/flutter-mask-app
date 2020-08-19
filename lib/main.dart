@@ -66,7 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: RaisedButton(
           child: Text('test fetch'),
-          onPressed: fetch,
+          onPressed: () async {
+            await fetch();
+            print(stores.length);
+          },
         ),
       ),
     );
