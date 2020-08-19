@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -37,13 +38,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future fetch() async {
+    final url =
+        "https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json";
+    final response = await http.get(url);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('공적마스크'),
       ),
-      body: Center(child: Text('CENTER'),),
+      body: Center(
+        child: RaisedButton(
+          child: Text('test fetch'),
+          onPressed: fetch,
+        ),
+      ),
     );
   }
 }
