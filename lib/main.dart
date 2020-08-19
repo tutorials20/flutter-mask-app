@@ -70,6 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('공적마스크 ${stores.length} 곳'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: fetch,
+            )
+          ],
         ),
         body: ListView(
           children: stores
