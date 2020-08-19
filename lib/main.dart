@@ -53,25 +53,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var jsonStores = jsonDecode(utf8.decode(response.bodyBytes))["stores"];
     var dynamics = jsonStores.map((json) => Store.fromJson(json));
-    stores = dynamics.toList().cast<Store>();
-    print(stores);
+
+    setState(() {
+      stores = dynamics.toList().cast<Store>();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetch();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('공적마스크'),
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('test fetch'),
-          onPressed: () async {
-            await fetch();
-            print(stores.length);
-          },
+        appBar: AppBar(
+          title: Text('공적마스크'),
         ),
-      ),
-    );
+        body: ListView(
+          children: stores.map((e) => Text(e.name)).toList(),
+        ));
   }
 }
