@@ -72,7 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text('공적마스크'),
         ),
         body: ListView(
-          children: stores.map((e) => Text(e.name)).toList(),
+          children: stores
+              .map((e) => ListTile(
+                    title: Text(e.name),
+                    subtitle: Text(e.addr),
+                    trailing: Text(e.remainStat ?? '모름'),
+                  ))
+              .toList(),
         ));
   }
 }
