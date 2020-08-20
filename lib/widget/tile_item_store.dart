@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stard1_mask_api/model/store.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TileItemStore extends StatelessWidget {
   final Store store;
@@ -13,6 +14,7 @@ class TileItemStore extends StatelessWidget {
       title: Text(store.name),
       subtitle: Text(store.addr),
       trailing: buildRemainingComponent(store),
+      onTap: onTap,
     );
   }
 
@@ -55,5 +57,14 @@ class TileItemStore extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void onTap() async {
+    const url = 'https://flutter.dev';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
