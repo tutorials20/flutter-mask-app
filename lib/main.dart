@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stard1_mask_api/model/store.dart';
-import 'package:stard1_mask_api/repository/store_repository.dart';
+import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider.value(
+    value: StoreViewModel(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -41,10 +45,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var stores = List<Store>();
-  final repository = StoreRepository();
+  viewModel() => Provider.of<StoreViewModel>(context);
 
-  List<Store> filteredStores() => stores.where(filterExists).toList();
+  stores() => viewModel().stores;
+
+  List<Store> filteredStores() => stores().where(filterExists).toList();
 
   bool filterExists(store) {
     switch (store.remainStat) {
@@ -57,23 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    fetch();
-  }
-
-  void fetch() {
-    setState(() {
-      this.stores = List();
-    });
-
-    repository.fetch().then((stores) => setState(() {
-          this.stores = stores;
-        }));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -81,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
-              onPressed: fetch,
+              onPressed: viewModel().fetch,
             )
           ],
         ),
-        body: stores.length < 1 ? buildLoading() : buildContent());
+        body: stores().length < 1 ? buildLoading() : buildContent());
   }
 
   buildLoading() => Center(
