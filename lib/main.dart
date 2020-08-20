@@ -39,30 +39,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  viewModel() => Provider.of<StoreViewModel>(context);
-
-  stores() => viewModel().stores;
-
-  List<Store> filteredStores() => stores().where(filterExists).toList();
-
-  bool filterExists(store) {
-    switch (store.remainStat) {
-      case 'plenty':
-      case 'some':
-      case 'few':
-        return true;
-    }
-    return false;
-  }
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    viewModel() => Provider.of<StoreViewModel>(context);
+
+    stores() => viewModel().stores;
+
+    bool filterExists(store) {
+      switch (store.remainStat) {
+        case 'plenty':
+        case 'some':
+        case 'few':
+          return true;
+      }
+      return false;
+    }
+
+    List<Store> filteredStores() => stores().where(filterExists).toList();
+
     return Scaffold(
         appBar: AppBar(
           title: Text('공적마스크 ${filteredStores().length} 곳'),
@@ -73,7 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        body: stores().length < 1 ? buildLoading() : buildContent());
+        body: stores().length < 1
+            ? buildLoading()
+            : buildContent(filteredStores()));
   }
 
   buildLoading() => Center(
@@ -83,8 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
 
-  buildContent() => ListView(
-        children: filteredStores()
+  buildContent(List<Store> stores) => ListView(
+        children: stores
             .map((e) => ListTile(
                   title: Text(e.name),
                   subtitle: Text(e.addr),
