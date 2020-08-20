@@ -37,11 +37,14 @@ class MainPage extends StatelessWidget {
       );
 
   buildContent(List<Store> stores, Position position) => ListView(
-        children: stores
-            .map((store) => cloneStoreWithCalculateDistance(store, position))
-            .map((store) => TileItemStore(store))
-            .toList(),
-      );
+      children: sortedStores(stores, position)
+          .map((store) => TileItemStore(store))
+          .toList());
+
+  List<Store> sortedStores(List<Store> stores, Position position) => stores
+      .map((store) => cloneStoreWithCalculateDistance(store, position))
+      .toList()
+        ..sort((a, b) => (a.distance - b.distance).toInt());
 
   Store cloneStoreWithCalculateDistance(Store store, Position position) {
     store.distance = getDistance(store, position);
