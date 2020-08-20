@@ -5,6 +5,7 @@ import 'package:stard1_mask_api/page/main_page.dart';
 import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(ChangeNotifierProvider.value(
     value: StoreViewModel(),
     child: MyApp(),
