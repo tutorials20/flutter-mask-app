@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
-import 'package:stard1_mask_api/widget/tile_item_remaining_stat.dart';
+import 'package:stard1_mask_api/widget/tile_item_store.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -36,11 +36,7 @@ class MainPage extends StatelessWidget {
 
   buildContent(List<Store> stores) => ListView(
         children: stores
-            .map((store) => ListTile(
-                  title: Text(store.name),
-                  subtitle: Text(store.addr),
-                  trailing: TileItemRemainingStat(store),
-                ))
+            .map((store) => TileItemStore(store))
             .toList(),
       );
 }

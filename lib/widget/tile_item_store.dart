@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stard1_mask_api/model/store.dart';
 
-class TileItemRemainingStat extends StatelessWidget {
+class TileItemStore extends StatelessWidget {
   final Store store;
 
-  TileItemRemainingStat(this.store);
+  TileItemStore(this.store);
 
   @override
   Widget build(BuildContext context) {
-    return buildRemainingComponent(store);
+    return ListTile(
+      title: Text(store.name),
+      subtitle: Text(store.addr),
+      trailing: buildRemainingComponent(store),
+    );
   }
 
   buildRemainingComponent(Store store) {
