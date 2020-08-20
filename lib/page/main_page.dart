@@ -9,19 +9,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     viewModel() => Provider.of<StoreViewModel>(context);
 
-    stores() => viewModel().stores;
-
-    bool filterExists(store) {
-      switch (store.remainStat) {
-        case 'plenty':
-        case 'some':
-        case 'few':
-          return true;
-      }
-      return false;
-    }
-
-    List<Store> filteredStores() => stores().where(filterExists).toList();
+    filteredStores() => viewModel().filteredStores();
 
     return Scaffold(
         appBar: AppBar(
@@ -33,7 +21,7 @@ class MainPage extends StatelessWidget {
             )
           ],
         ),
-        body: stores().length < 1
+        body: viewModel().isLoading()
             ? buildLoading()
             : buildContent(filteredStores()));
   }

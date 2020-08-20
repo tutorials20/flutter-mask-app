@@ -16,4 +16,18 @@ class StoreViewModel with ChangeNotifier {
     stores = await _repository.fetch();
     notifyListeners();
   }
+
+  List<Store> filteredStores() => stores.where(_filterExists).toList();
+
+  bool _filterExists(store) {
+    switch (store.remainStat) {
+      case 'plenty':
+      case 'some':
+      case 'few':
+        return true;
+    }
+    return false;
+  }
+
+  isLoading() => stores.length == 0;
 }
