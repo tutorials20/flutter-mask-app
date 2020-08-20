@@ -35,13 +35,24 @@ class MainPage extends StatelessWidget {
 
   buildContent(List<Store> stores) => ListView(
         children: stores
-            .map((e) => ListTile(
-                  title: Text(e.name),
-                  subtitle: Text(e.addr),
-                  trailing: buildRemainingComponent(e),
+            .map((store) => ListTile(
+                  title: Text(store.name),
+                  subtitle: Text(store.addr),
+                  trailing: TileItemRemainingStat(store),
                 ))
             .toList(),
       );
+}
+
+class TileItemRemainingStat extends StatelessWidget {
+  final Store store;
+
+  TileItemRemainingStat(this.store);
+
+  @override
+  Widget build(BuildContext context) {
+    return buildRemainingComponent(store);
+  }
 
   buildRemainingComponent(Store store) {
     var title = '판매중지';
