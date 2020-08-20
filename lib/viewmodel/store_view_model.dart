@@ -6,7 +6,13 @@ class StoreViewModel with ChangeNotifier {
   List<Store> stores = [];
   final _repository = StoreRepository();
 
+  StoreViewModel() {
+    fetch();
+  }
+
   Future fetch() async {
+    stores = [];
+    notifyListeners();
     stores = await _repository.fetch();
     notifyListeners();
   }
