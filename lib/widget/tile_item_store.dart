@@ -60,7 +60,8 @@ class TileItemStore extends StatelessWidget {
   }
 
   void onTap() async {
-    const url = 'https://flutter.dev';
+    final url =
+        'https://google.com/maps/search/?api=1&query=${store.lat},${store.lng}';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
