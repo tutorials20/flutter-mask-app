@@ -8,6 +8,7 @@ class Store {
   String remainStat;
   String stockAt;
   String type;
+  num distance;
 
   Store(
       {this.addr,

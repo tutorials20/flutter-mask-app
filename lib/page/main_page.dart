@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
@@ -36,7 +37,21 @@ class MainPage extends StatelessWidget {
       );
 
   buildContent(List<Store> stores, Position position) => ListView(
-        children:
-            stores.map((store) => TileItemStore(store, position)).toList(),
+        children: stores
+            .map((store) => cloneStoreWithCalculateDistance(store, position))
+            .map((store) => TileItemStore(store))
+            .toList(),
       );
+
+  Store cloneStoreWithCalculateDistance(Store store, Position position) {
+    store.distance = getDistance(store, position);
+    return store;
+  }
+
+  num getDistance(Store store, Position position) =>
+      new Distance().as(
+          LengthUnit.Meter,
+          new LatLng(position.latitude, position.longitude),
+          new LatLng(store.lat, store.lng)) /
+      1000.0;
 }
