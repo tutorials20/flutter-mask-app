@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong/latlong.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TileItemStore extends StatelessWidget {
   final Store store;
+  final Position position;
 
-  TileItemStore(this.store);
+  TileItemStore(this.store, this.position);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(store.name),
       subtitle: Text(store.addr),
+      leading: Text(distance()),
       trailing: buildRemainingComponent(store),
       onTap: onTap,
     );
@@ -68,4 +72,9 @@ class TileItemStore extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+
+  String distance() => new Distance()
+      .as(LengthUnit.Kilometer, new LatLng(position.latitude, position.longitude),
+          new LatLng(store.lat, store.lng))
+      .toString() + "km";
 }

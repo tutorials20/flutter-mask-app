@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
@@ -24,7 +25,7 @@ class MainPage extends StatelessWidget {
         ),
         body: viewModel().isLoading()
             ? buildLoading()
-            : buildContent(filteredStores()));
+            : buildContent(filteredStores(), viewModel().position));
   }
 
   buildLoading() => Center(
@@ -34,9 +35,8 @@ class MainPage extends StatelessWidget {
         ),
       );
 
-  buildContent(List<Store> stores) => ListView(
-        children: stores
-            .map((store) => TileItemStore(store))
-            .toList(),
+  buildContent(List<Store> stores, Position position) => ListView(
+        children:
+            stores.map((store) => TileItemStore(store, position)).toList(),
       );
 }
