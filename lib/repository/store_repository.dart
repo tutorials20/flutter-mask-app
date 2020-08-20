@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:http/http.dart' as http;
 
 class StoreRepository {
-  Future<List<Store>> fetch() async {
+  Future<List<Store>> fetch(Position position) async {
     final url =
-        "https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json";
+        "https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json?latitude=${position.latitude}&longitutide=${position.longitude}";
     final response = await http.get(url);
 
     print('Response status: ${response.statusCode}');
