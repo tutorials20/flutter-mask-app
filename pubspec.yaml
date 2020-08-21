@@ -33,6 +33,7 @@ dependencies:
   geolocator: ^5.3.2+2
   url_launcher: ^5.5.0
   latlong: ^0.6.1
+  rich_alert: ^0.1.32
 
 dev_dependencies:
   flutter_test:
