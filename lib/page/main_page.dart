@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stard1_mask_api/model/store.dart';
 import 'package:stard1_mask_api/viewmodel/store_view_model.dart';
 import 'package:stard1_mask_api/widget/tile_item_store.dart';
+import 'package:rich_alert/rich_alert.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -20,13 +21,30 @@ class MainPage extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
-              onPressed: viewModel().fetch,
+              onPressed: () => fetchStores(viewModel, context),
             )
           ],
         ),
         body: viewModel().isLoading()
             ? buildLoading()
             : buildContent(filteredStores(), viewModel().position));
+  }
+
+  void fetchStores(StoreViewModel viewModel(), BuildContext context) {
+    try {
+      viewModel().fetch();
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return RichAlertDialog(
+              //uses the custom alert dialog
+              alertTitle: richTitle("Error on fetch stores"),
+              alertSubtitle: richSubtitle("ERROR on fetch"),
+              alertType: RichAlertType.WARNING,
+            );
+          });
+    }
   }
 
   buildLoading() => Center(
